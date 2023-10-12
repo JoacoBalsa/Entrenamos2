@@ -26,6 +26,16 @@
     <url-pattern>/AgregarUsuario</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>AgregarActividadServlet</servlet-name>
+    <servlet-class>main.servlets.AgregarActividadServ</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>AgregarActividadServlet</servlet-name>
+    <url-pattern>/AgregarActividad</url-pattern>
+  </servlet-mapping>
+
 
 </web-app>
 

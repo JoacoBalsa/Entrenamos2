@@ -67,7 +67,6 @@ public class AgregarUsuarioServ extends HttpServlet {
                         request.setAttribute("error", "No puede haber campos vacíos");
                         RequestDispatcher rd = request.getRequestDispatcher("/AgregarUsuario.jsp");
                         rd.forward(request, response);
-
                     }
                     else {
                         dtU = new DtProfesor(nickname, nombre, apellido, email, password, fecNacDate, desc, bio, web);
@@ -81,7 +80,6 @@ public class AgregarUsuarioServ extends HttpServlet {
                 request.setAttribute("error", "El usuario de nick " + nickname + " ya existe");
                 RequestDispatcher rd = request.getRequestDispatcher("/AgregarUsuario.jsp");
                 rd.forward(request, response);
-
             }
             RequestDispatcher rd;
             request.setAttribute("mensaje", "Se ha ingresado correctamente el usuario " + nombre + " en el sistema.");
