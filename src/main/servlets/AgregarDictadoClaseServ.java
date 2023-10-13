@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.google.gson.Gson;
 import datatypes.DtProfesor;
 import datatypes.DtSocio;
 import datatypes.DtUsuario;
@@ -19,7 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import interfaces.Fabrica;
 import interfaces.IControlador;
 @WebServlet("/Entrenamos.uy/AgregarDictadoClase")
-public class AgregarDictadoClaseServ {
+public class AgregarDictadoClaseServ extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     public AgregarDictadoClaseServ() {
@@ -27,6 +28,27 @@ public class AgregarDictadoClaseServ {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Aquí obtienes la instancia de la fábrica y del controlador
+        Fabrica fabrica = Fabrica.getInstancia();
+        IControlador icon = fabrica.getIControlador();
+
+        // Obtienes el parámetro de la institución desde la solicitud
+        String institucionSeleccionada = request.getParameter("institucion");
+
+        if (institucionSeleccionada != null && !institucionSeleccionada.isEmpty()) {
+            // Obtienes las actividades deportivas para la institución seleccionada
+            String[] actividades = icon.listarActividadesDeportivas(institucionSeleccionada);
+
+            // Conviertes el array de cadenas a un formato JSON
+            Gson gson = new Gson();
+            String actividadesJson = gson.toJson(actividades);
+
+            // Estableces el tipo de contenido de la respuesta como JSON
+            response.setContentType("application/json");
+
+            // Escribe la respuesta JSON al flujo de salida
+            response.getWriter().write(actividadesJson);
+        }
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
