@@ -36,6 +36,15 @@
     <url-pattern>/AgregarActividad</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>AgregarDictadoClaseServlet</servlet-name>
+    <servlet-class>main.servlets.AgregarDictadoClaseServ</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>AgregarDictadoClaseServlet</servlet-name>
+    <url-pattern>/AgregarDictadoClase</url-pattern>
+  </servlet-mapping>
 
 </web-app>
 

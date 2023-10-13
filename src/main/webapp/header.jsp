@@ -31,7 +31,7 @@
 						<li><a class="dropdown-item" href="AgregarActividadDeportiva.jsp">Actividad Deportiva</a></li>
 						<li><a class="dropdown-item" href="AgregarInstuticion.jsp">Institucion Deportiva</a></li>
 						<li><a class="dropdown-item" href="AgregarUsuario.jsp">Profesor/Socio</a></li>
-						<li><a class="dropdown-item" href="AltaDictadoClase.jsp">Dictado de Clase</a></li>
+						<li><a class="dropdown-item" href="AgregarDictadoClase.jsp">Dictado de Clase</a></li>
 					</ul>
 				</li>
 
