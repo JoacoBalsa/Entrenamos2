@@ -9,10 +9,10 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
-<div id="errorContainer">
-    <div class="alert alert-danger" id="errorText"></div>
-</div>
-<div class="contenedor">
+    <div id="errorContainer" style="display:none;">
+        <div class="alert alert-danger" id="errorText"></div>
+    </div>
+    <div class="contenedor">
     <form action="/Entrenamos.uy/Login" method="post">
         <h1>Login</h1>
         <div class="input-box">
@@ -25,6 +25,10 @@
         </div>
         <button type="submit" class="btn">Login</button>
 
+        <div class="register">
+            <p>No tenes cuenta chinchulin <a href="AgregarUsuario.jsp">Registrarse</a></p>
+        </div>
+
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 var error = "<%= request.getAttribute("error") %>";
@@ -36,11 +40,9 @@
                 }
             });
         </script>
+
     </form>
-    <div class="register">
-        <p>No tenes cuenta chinchulin <a href="AgregarUsuario.jsp">Registrarse</a></p>
     </div>
-</div>
 </body>
 </html>
 

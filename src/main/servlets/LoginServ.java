@@ -1,14 +1,6 @@
 package main.servlets;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import datatypes.DtProfesor;
-import datatypes.DtSocio;
-import datatypes.DtUsuario;
-import excepciones.UsuarioRepetidoException;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -18,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import interfaces.Fabrica;
 import interfaces.IControlador;
+import jakarta.servlet.http.HttpSession;
 
 import javax.swing.*;
 
@@ -39,6 +32,9 @@ public class LoginServ extends HttpServlet {
         Fabrica fabrica = Fabrica.getInstancia();
         IControlador icon = fabrica.getIControlador();
         if(icon.logIn(nickname, password)){
+            HttpSession session = request.getSession();
+            session.setAttribute("username", nickname);
+
             RequestDispatcher rd;
             rd = request.getRequestDispatcher("/index.jsp");
             rd.forward(request, response);

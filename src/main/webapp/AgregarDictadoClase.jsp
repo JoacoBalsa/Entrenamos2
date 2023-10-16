@@ -102,12 +102,6 @@
                placeholder="Fecha de nacimiento de usuario">
     </div>
 
-    <!--ACA PONER PARA QUE PIDA LA HORA-->
-    <div id="horaClase">
-        <label for="hora">Seleccione la hora:</label>
-        <input type="time" id="hora" name="hora" step="3600">
-    </div>
-
     <div class="form-group">
         <label for="inputUrl">Url</label>
         <input type="text"
@@ -118,6 +112,10 @@
                value="">
     </div>
 
+    <div id="horaClase">
+        <label for="hora">Seleccione la hora:</label>
+        <input type="time" id="hora" name="hora" step="3600">
+    </div>
 
     <button type="submit" class="btn btn-primary">Agregar Actividad Deportiva</button>
 

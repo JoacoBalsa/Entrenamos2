@@ -6,9 +6,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.google.gson.Gson;
+import datatypes.DtClase;
 import datatypes.DtProfesor;
 import datatypes.DtSocio;
 import datatypes.DtUsuario;
+import excepciones.DictadoRepetidoException;
 import excepciones.UsuarioRepetidoException;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -16,6 +18,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import interfaces.Fabrica;
 import interfaces.IControlador;
@@ -51,6 +54,39 @@ public class AgregarDictadoClaseServ extends HttpServlet {
         }
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String institucion = request.getParameter("institucion");
+        String actividad_depor = request.getParameter("actividad_depor");
+        String nombre = request.getParameter("nombre");
+        String fecIni = request.getParameter("fecIni");
+        String url = request.getParameter("url");
+        String hora = request.getParameter("hora");
+        Fabrica fabrica = Fabrica.getInstancia();
+        IControlador icon = fabrica.getIControlador();
 
+        // Para obtener el usuario de la sesión actual
+        HttpSession session = request.getSession();
+        String storedUsername = (String) session.getAttribute("username");
+
+        // Para obtener la fecha del sistema
+        Date fechaReg = new Date();
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date fechaInicio;
+        try {
+            fechaInicio = formato.parse(fecIni);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+        try{
+            icon.altaDictadoClase(new DtClase(nombre, fechaInicio, hora, url, fechaReg), institucion, actividad_depor, storedUsername);
+        } catch(DictadoRepetidoException e){
+            throw new RuntimeException(e);
+        }
+
+        RequestDispatcher rd;
+        request.setAttribute("mensaje", "Se ha ingresado correctamente el dictado de clase de nombre: " + nombre + " en el sistema.");
+        rd = request.getRequestDispatcher("/notificacion.jsp");
+        rd.forward(request, response);
     }
 }
