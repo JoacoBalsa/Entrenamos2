@@ -28,10 +28,11 @@
 							Altas
 						</button>
 						<ul class="dropdown-menu dropdown-menu-dark">
-							<li><a class="dropdown-item" href="AgregarActividadDeportiva.jsp">Actividad Deportiva</a></li>
-							<li><a class="dropdown-item" href="AgregarInstuticion.jsp">Institucion Deportiva</a></li>
-							<li><a class="dropdown-item" href="AgregarUsuario.jsp">Profesor/Socio</a></li>
-							<li><a class="dropdown-item" href="AgregarDictadoClase.jsp">Dictado de Clase</a></li>
+							<li><a id="AgregarActDepor" class="dropdown-item" href="AgregarActividadDeportiva.jsp">Actividad Deportiva (opc)</a></li>
+							<li><a id="AgregarInstitucion" class="dropdown-item" href="AgregarInstuticion.jsp">Institucion Deportiva (opc)</a></li>
+							<li><a id="AgregarUser" class="dropdown-item" href="AgregarUsuario.jsp">Profesor/Socio (opc)</a></li>
+							<li><a id="AgregarDicClase" class="dropdown-item" href="AgregarDictadoClase.jsp">Dictado de Clase</a></li>
+							<li><a id="RegADicClase" class="dropdown-item" href="RegistroADictadoClase.jsp">Registro a dictado de Clase</a></li>
 						</ul>
 					</li>
 
@@ -40,9 +41,10 @@
 							Modificar
 						</button>
 						<ul class="dropdown-menu dropdown-menu-dark">
-							<li><a class="dropdown-item" href="ModificarActividadDeportiva.jsp">Actividad Deportiva</a></li>
-							<li><a class="dropdown-item" href="ModificarInstitucionDeportiva.jsp">Institucion Deportiva</a></li>
-							<li><a class="dropdown-item" href="ModificarUsuario.jsp">Usuario</a></li>
+							<li><a id="ModifActDepor" class="dropdown-item" href="ModificarActividadDeportiva.jsp">Actividad Deportiva (opc)</a></li>
+							<li><a id="ModifInstDepor" class="dropdown-item" href="ModificarInstitucionDeportiva.jsp">Institucion Deportiva (opc)</a></li>
+							<li><a id="ModifUser" class="dropdown-item" href="ModificarUsuario.jsp">Usuario</a></li>
+							<li><a id="EliminarRegADicClase" class="dropdown-item" href="EliminarRegistroADictadoClase.jsp">Eliminar Registro a dictado de Clase</a></li>
 						</ul>
 					</li>
 
@@ -51,10 +53,11 @@
 						Consultas
 					</button>
 					<ul class="dropdown-menu dropdown-menu-dark">
-						<li><a class="dropdown-item" href="ConsultaActividadDeportiva.jsp">Actividad Deportiva</a></li>
-						<li><a class="dropdown-item" href="ConsultaUsuario.jsp">Usuario</a></li>
-						<li><a class="dropdown-item" href="ConsultaDictadoClase.jsp">Dictado de Clase</a></li>
-						<li><a class="dropdown-item" href="RankingClase.jsp">Ranking de Clases</a></li>
+						<li><a id="ConsultaActDepor" class="dropdown-item" href="ConsultaActividadDeportiva.jsp">Actividad Deportiva</a></li>
+						<li><a id="ConsultaUser" class="dropdown-item" href="ConsultaUsuario.jsp">Usuario</a></li>
+						<li><a id="ConsultaDicClase" class="dropdown-item" href="ConsultaDictadoClase.jsp">Dictado de Clase</a></li>
+						<li><a id="RankingClase" class="dropdown-item" href="RankingClase.jsp">Ranking de Clases</a></li>
+						<li><a id="RankingActDepor" class="dropdown-item" href="RankingActividadDeportiva.jsp">Ranking de Clases</a></li>
 					</ul>
 					</li>
 
@@ -70,32 +73,58 @@
 </body>
 
 <script>
-
 	// Supongamos que tienes una variable userType que indica el tipo de usuario
 	var userType = "S"; // Puedes cambiar esto a "profesor" para probar
 
 	// Función para mostrar u ocultar elementos del menú según el tipo de usuario
 	function toggleMenuItems() {
-		var dropdownModificarUsuario = document.querySelector("a[href='ModificarUsuario.jsp']");
-		var dropdownRankingClase = document.querySelector("a[href='RankingClase.jsp']");
-		var dropdownRankingActividadDeportiva = document.querySelector("a[href='RankingActividadDeportiva.jsp']");
-		var buttonRegistroDictadoClase = document.querySelector("button[onclick*='RegistroDictadoClase.jsp']");
-		var buttonEliminarRegistroDictadoClase = document.querySelector("button[onclick*='EliminarRegistroDictadoClase.jsp']");
+		var AgregarActDepor = document.getElementById("AgregarActDepor");
+		var AgregarInstitucion = document.getElementById("AgregarInstitucion");
+		var AgregarUser = document.getElementById("AgregarUser");
+		var AgregarDicClase = document.getElementById("AgregarActDepor");
+		var ModifActDepor = document.getElementById("ModifActDepor");
+		var ModifInstDepor = document.getElementById("ModifInstDepor");
+		var ModifUser = document.getElementById("ModifUser");
+		var ConsultaActDepor = document.getElementById("ConsultaActDepor");
+		var ConsultaUser = document.getElementById("ConsultaUser");
+		var ConsultaDicClase = document.getElementById("ConsultaDicClase");
+		var RankingClase = document.getElementById("RankingClase");
+		var RankingActDepor = document.getElementById("RankingActDepor");
+		var RegADicClase = document.getElementById("RegADicClase");
+		var EliminarRegADicClase = document.getElementById("EliminarRegADicClase");
 
 		if (userType === "P") {
 			// Mostrar elementos específicos para profesores
-			dropdownModificarUsuario.style.display = "block";
-			dropdownRankingClase.style.display = "block";
-			dropdownRankingActividadDeportiva.style.display = "block";
-			buttonRegistroDictadoClase.style.display = "none";
-			buttonEliminarRegistroDictadoClase.style.display = "none";
+			AgregarActDepor.style.display = "block";		//No hay que implementarla para esta tarea. Aparecen en los dos
+			AgregarInstitucion.style.display = "block";		//No hay que implementarla para esta tarea. Aparecen en los dos
+			AgregarUser.style.display = "block";			//No hay que implementarla para esta tarea. Aparecen en los dos
+			AgregarDicClase.style.display = "block";
+			ModifActDepor.style.display = "none";			//No hay que implementarla para esta tarea. Aparecen en los dos
+			ModifInstDepor.style.display = "none";			//No hay que implementarla para esta tarea. Aparecen en los dos
+			ModifUser.style.display = "block";
+			ConsultaActDepor.style.display = "block";
+			ConsultaUser.style.display = "block";
+			ConsultaDicClase.style.display = "block";
+			RankingClase.style.display = "block";
+			RankingActDepor.style.display = "block";
+			RegADicClase.style.display = "none";
+			EliminarRegADicClase.style.display = "none";
 		} else if (userType === "S") {
 			// Mostrar elementos específicos para socios
-			dropdownModificarUsuario.style.display = "none";
-			dropdownRankingClase.style.display = "none";
-			dropdownRankingActividadDeportiva.style.display = "none";
-			buttonRegistroDictadoClase.style.display = "block";
-			buttonEliminarRegistroDictadoClase.style.display = "block";
+			AgregarActDepor.style.display = "block";		//No hay que implementarla para esta tarea. Aparecen en los dos
+			AgregarInstitucion.style.display = "block";		//No hay que implementarla para esta tarea. Aparecen en los dos
+			AgregarUser.style.display = "block";			//No hay que implementarla para esta tarea. Aparecen en los dos
+			AgregarDicClase.style.display = "none";
+			ModifActDepor.style.display = "none";			//No hay que implementarla para esta tarea. Aparecen en los dos
+			ModifInstDepor.style.display = "none";			//No hay que implementarla para esta tarea. Aparecen en los dos
+			ModifUser.style.display = "block";
+			ConsultaActDepor.style.display = "block";
+			ConsultaUser.style.display = "block";
+			ConsultaDicClase.style.display = "none";
+			RankingClase.style.display = "none";
+			RankingActDepor.style.display = "none";
+			RegADicClase.style.display = "block";
+			EliminarRegADicClase.style.display = "none";
 		}
 	}
 

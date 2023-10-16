@@ -12,8 +12,6 @@ import interfaces.Fabrica;
 import interfaces.IControlador;
 import jakarta.servlet.http.HttpSession;
 
-import javax.swing.*;
-
 @WebServlet("/Entrenamos.uy/Login")
 public class LoginServ extends HttpServlet {
     private static final long serialVersionUID = 1L;
