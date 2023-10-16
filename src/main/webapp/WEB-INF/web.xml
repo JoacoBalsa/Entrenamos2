@@ -55,6 +55,17 @@
     <servlet-name>AgregarDictadoClaseServlet</servlet-name>
     <url-pattern>/AgregarDictadoClase</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>ConsultaDictadoClaseServlet</servlet-name>
+    <servlet-class>main.servlets.ConsultaDictadoClaseServ</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>ConsultaDictadoClaseServlet</servlet-name>
+    <url-pattern>/ConsultaDictadoClase</url-pattern>
+  </servlet-mapping>
+
 
 </web-app>
 
