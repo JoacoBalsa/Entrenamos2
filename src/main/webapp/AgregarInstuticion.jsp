@@ -10,6 +10,9 @@
 <body>
 
 <form action="/Entrenamos.uy/AgregarInstitucion" method="post">
+    <div id="errorContainer" style="display:none;">
+        <div class="alert alert-danger" id="errorText"></div>
+    </div>
     <div class="form-group">
         <label for="InputNombreIns">Nombre</label>
         <input type="text"
@@ -45,6 +48,18 @@
                value=""
                autocomplete="off">
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var error = "<%= request.getAttribute("error") %>";
+            if (error && error !== "null") {
+                var errorContainer = document.getElementById("errorContainer");
+                var errorText = document.getElementById("errorText");
+                errorText.innerText = error;
+                errorContainer.style.display = "block";
+            }
+        });
+    </script>
 
     <div class="mt-3"></div>
     <button type="submit" class="btn btn-primary">Agregar Institución Deportiva</button>

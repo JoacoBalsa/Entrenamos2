@@ -32,9 +32,18 @@ public class AgregarInstitucionServ extends HttpServlet {
         String url = request.getParameter("url");
         Fabrica fabrica = Fabrica.getInstancia();
         IControlador icon = fabrica.getIControlador();
+
+        if (nombre.isEmpty() || descripcion.isEmpty() || url.isEmpty()){
+            request.setAttribute("error", "No puede haber campos vacíos");
+            RequestDispatcher rd = request.getRequestDispatcher("/AgregarInstuticion.jsp");
+            rd.forward(request, response);
+        }
         try {
             icon.altaInstitucion(nombre,descripcion,url);
         } catch (InstitucionDeportivaRepetidaException e) {
+            request.setAttribute("error", "La Institucion Deportiva ya existe");
+            RequestDispatcher rd = request.getRequestDispatcher("/AgregarInstuticion.jsp");
+            rd.forward(request, response);
             throw new RuntimeException(e);
         }
         RequestDispatcher rd;
