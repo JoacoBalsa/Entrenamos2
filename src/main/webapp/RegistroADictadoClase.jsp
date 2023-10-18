@@ -88,7 +88,12 @@
                         option.value = actividad;
                         actividadSelect.appendChild(option);
                     });
+                    actividadSelect.value = data[0];
+                    actualizarClases();
                 });
+
+
+            // Llamar a la función para actualizar las clases después de cargar las actividades
         });
     </script>
 
@@ -97,10 +102,6 @@
         var institucionSelect = document.getElementById("inputInst");
         var actividadSelect = document.getElementById("inputAct");
         var clasesContainer = document.getElementById("inputClase");
-
-        // Event listener para cuando cambia la institución o la actividad
-        institucionSelect.addEventListener("change", actualizarClases);
-        actividadSelect.addEventListener("change", actualizarClases);
 
         // Función para actualizar las clases
         function actualizarClases() {
@@ -124,7 +125,12 @@
                     });
                 });
         }
+
+        // Event listener para cuando cambia la institución o la actividad
+        institucionSelect.addEventListener("change", actualizarClases);
+        actividadSelect.addEventListener("change", actualizarClases);
     </script>
+
 
 
 </form>

@@ -95,7 +95,7 @@
 			var AgregarActDepor = document.getElementById("AgregarActDepor");
 			var AgregarInstitucion = document.getElementById("AgregarInstitucion");
 			var AgregarUser = document.getElementById("AgregarUser");
-			var AgregarDicClase = document.getElementById("AgregarActDepor");
+			var AgregarDicClase = document.getElementById("AgregarDicClase");
 			var ModifActDepor = document.getElementById("ModifActDepor");
 			var ModifInstDepor = document.getElementById("ModifInstDepor");
 			var ModifUser = document.getElementById("ModifUser");
