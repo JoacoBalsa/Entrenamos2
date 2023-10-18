@@ -9,6 +9,7 @@
 	}
 </style>
 <body>
+<form action="/Entrenamos.uy/HeaderServ" method="post">
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<div class="container-fluid">
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,65 +71,69 @@
 			</div>
 		</div>
 	</nav>
-</body>
+	<script>
+		// Supongamos que tienes una variable userType que indica el tipo de usuario
+		var userType = '<%= request.getAttribute("tipoUser") %>'; // Esto es lo que obtienes de la JSP
 
-<script>
-	// Supongamos que tienes una variable userType que indica el tipo de usuario
-	var userType = "S"; // Puedes cambiar esto a "profesor" para probar
-
-	// Función para mostrar u ocultar elementos del menú según el tipo de usuario
-	function toggleMenuItems() {
-		var AgregarActDepor = document.getElementById("AgregarActDepor");
-		var AgregarInstitucion = document.getElementById("AgregarInstitucion");
-		var AgregarUser = document.getElementById("AgregarUser");
-		var AgregarDicClase = document.getElementById("AgregarActDepor");
-		var ModifActDepor = document.getElementById("ModifActDepor");
-		var ModifInstDepor = document.getElementById("ModifInstDepor");
-		var ModifUser = document.getElementById("ModifUser");
-		var ConsultaActDepor = document.getElementById("ConsultaActDepor");
-		var ConsultaUser = document.getElementById("ConsultaUser");
-		var ConsultaDicClase = document.getElementById("ConsultaDicClase");
-		var RankingClase = document.getElementById("RankingClase");
-		var RankingActDepor = document.getElementById("RankingActDepor");
-		var RegADicClase = document.getElementById("RegADicClase");
-		var EliminarRegADicClase = document.getElementById("EliminarRegADicClase");
-
-		if (userType === "P") {
-			// Mostrar elementos específicos para profesores
-			AgregarActDepor.style.display = "block";		//No hay que implementarla para esta tarea. Aparecen en los dos
-			AgregarInstitucion.style.display = "block";		//No hay que implementarla para esta tarea. Aparecen en los dos
-			AgregarUser.style.display = "block";			//No hay que implementarla para esta tarea. Aparecen en los dos
-			AgregarDicClase.style.display = "block";
-			ModifActDepor.style.display = "none";			//No hay que implementarla para esta tarea. Aparecen en los dos
-			ModifInstDepor.style.display = "none";			//No hay que implementarla para esta tarea. Aparecen en los dos
-			ModifUser.style.display = "block";
-			ConsultaActDepor.style.display = "block";
-			ConsultaUser.style.display = "block";
-			ConsultaDicClase.style.display = "block";
-			RankingClase.style.display = "block";
-			RankingActDepor.style.display = "block";
-			RegADicClase.style.display = "none";
-			EliminarRegADicClase.style.display = "none";
-		} else if (userType === "S") {
-			// Mostrar elementos específicos para socios
-			AgregarActDepor.style.display = "block";		//No hay que implementarla para esta tarea. Aparecen en los dos
-			AgregarInstitucion.style.display = "block";		//No hay que implementarla para esta tarea. Aparecen en los dos
-			AgregarUser.style.display = "block";			//No hay que implementarla para esta tarea. Aparecen en los dos
-			AgregarDicClase.style.display = "none";
-			ModifActDepor.style.display = "none";			//No hay que implementarla para esta tarea. Aparecen en los dos
-			ModifInstDepor.style.display = "none";			//No hay que implementarla para esta tarea. Aparecen en los dos
-			ModifUser.style.display = "block";
-			ConsultaActDepor.style.display = "block";
-			ConsultaUser.style.display = "block";
-			ConsultaDicClase.style.display = "none";
-			RankingClase.style.display = "none";
-			RankingActDepor.style.display = "none";
-			RegADicClase.style.display = "block";
-			EliminarRegADicClase.style.display = "none";
+		// Asegurémonos de que userType sea una cadena
+		if (typeof userType !== 'string') {
+			userType = userType.toString();
 		}
-	}
+		// Función para mostrar u ocultar elementos del menú según el tipo de usuario
+		function toggleMenuItems() {
+			var AgregarActDepor = document.getElementById("AgregarActDepor");
+			var AgregarInstitucion = document.getElementById("AgregarInstitucion");
+			var AgregarUser = document.getElementById("AgregarUser");
+			var AgregarDicClase = document.getElementById("AgregarActDepor");
+			var ModifActDepor = document.getElementById("ModifActDepor");
+			var ModifInstDepor = document.getElementById("ModifInstDepor");
+			var ModifUser = document.getElementById("ModifUser");
+			var ConsultaActDepor = document.getElementById("ConsultaActDepor");
+			var ConsultaUser = document.getElementById("ConsultaUser");
+			var ConsultaDicClase = document.getElementById("ConsultaDicClase");
+			var RankingClase = document.getElementById("RankingClase");
+			var RankingActDepor = document.getElementById("RankingActDepor");
+			var RegADicClase = document.getElementById("RegADicClase");
+			var EliminarRegADicClase = document.getElementById("EliminarRegADicClase");
 
-	// Llamar a la función para inicializar el menú
-	toggleMenuItems();
-</script>
+			if (userType === "P") {
+				// Mostrar elementos específicos para profesores
+				AgregarActDepor.style.display = "block";		//No hay que implementarla para esta tarea. Aparecen en los dos
+				AgregarInstitucion.style.display = "block";		//No hay que implementarla para esta tarea. Aparecen en los dos
+				AgregarUser.style.display = "block";			//No hay que implementarla para esta tarea. Aparecen en los dos
+				AgregarDicClase.style.display = "block";
+				ModifActDepor.style.display = "none";			//No hay que implementarla para esta tarea. Aparecen en los dos
+				ModifInstDepor.style.display = "none";			//No hay que implementarla para esta tarea. Aparecen en los dos
+				ModifUser.style.display = "block";
+				ConsultaActDepor.style.display = "block";
+				ConsultaUser.style.display = "block";
+				ConsultaDicClase.style.display = "block";
+				RankingClase.style.display = "block";
+				RankingActDepor.style.display = "block";
+				RegADicClase.style.display = "none";
+				EliminarRegADicClase.style.display = "none";
+			} else if (userType === "S") {
+				// Mostrar elementos específicos para socios
+				AgregarActDepor.style.display = "block";		//No hay que implementarla para esta tarea. Aparecen en los dos
+				AgregarInstitucion.style.display = "block";		//No hay que implementarla para esta tarea. Aparecen en los dos
+				AgregarUser.style.display = "block";			//No hay que implementarla para esta tarea. Aparecen en los dos
+				AgregarDicClase.style.display = "none";
+				ModifActDepor.style.display = "none";			//No hay que implementarla para esta tarea. Aparecen en los dos
+				ModifInstDepor.style.display = "none";			//No hay que implementarla para esta tarea. Aparecen en los dos
+				ModifUser.style.display = "block";
+				ConsultaActDepor.style.display = "block";
+				ConsultaUser.style.display = "block";
+				ConsultaDicClase.style.display = "none";
+				RankingClase.style.display = "none";
+				RankingActDepor.style.display = "none";
+				RegADicClase.style.display = "block";
+				EliminarRegADicClase.style.display = "none";
+			}
+		}
+
+		// Llamar a la función para inicializar el menú
+		toggleMenuItems();
+	</script>
+</form>
+</body>
 </html>

@@ -16,7 +16,7 @@ import interfaces.Fabrica;
 import interfaces.IControlador;
 import jakarta.servlet.http.HttpSession;
 
-@WebServlet("/Entrenamos.uy/header")
+@WebServlet("/Entrenamos.uy/HeaderServ")
 public class headerServ {
     private static final long serialVersionUID = 1L;
 
@@ -24,22 +24,22 @@ public class headerServ {
         super();
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String tipoUser;
         Fabrica fabrica = Fabrica.getInstancia();
         IControlador icon = fabrica.getIControlador();
 
         HttpSession session = request.getSession();
         String nickname = (String) session.getAttribute("username");
-
-        DtUsuario user = icon.obtenerUsuario(nickname);
-        try{
-            DtProfesor profe = (DtProfesor) user;
-            tipoUser = "P";
-        } catch (Exception e){
+        if(icon.esSocio(nickname)){
             tipoUser = "S";
-            throw e;
         }
+        else{
+            tipoUser = "P";
+        }
+        request.setAttribute("tipoUser", tipoUser);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/header.jsp");
+        dispatcher.forward(request, response);
 
     }
 
