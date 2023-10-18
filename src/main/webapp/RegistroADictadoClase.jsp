@@ -62,10 +62,9 @@
         </select>
     </div>
 
+    <div class="mt-3"></div>
 
     <button type="submit" class="btn btn-primary">Agregar Registro</button>
-
-
 
     <!--SECCION DE SCRIPTS-->
     <script>

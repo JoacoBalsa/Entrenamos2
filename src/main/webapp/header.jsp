@@ -30,10 +30,10 @@
 							Altas
 						</button>
 						<ul class="dropdown-menu dropdown-menu-dark">
-							<li><a id="AgregarInstitucion" class="dropdown-item" href="AgregarInstuticion.jsp">Institucion Deportiva (opc)</a></li>
-							<li><a id="AgregarUser" class="dropdown-item" href="AgregarUsuario.jsp">Profesor/Socio (opc)</a></li>
+							<li><a id="AgregarInstitucion" class="dropdown-item" href="AgregarInstuticion.jsp">Institucion Deportiva (No T2)</a></li>
+							<li><a id="AgregarUser" class="dropdown-item" href="AgregarUsuario.jsp">Profesor/Socio (No T2)</a></li>
+							<li><a id="AgregarActDepor" class="dropdown-item" href="AgregarActividadDeportiva.jsp">Actividad Deportiva (No T2)</a></li>
 							<li><a id="AgregarDicClase" class="dropdown-item" href="AgregarDictadoClase.jsp">Dictado de Clase</a></li>
-							<li><a id="AgregarActDepor" class="dropdown-item" href="AgregarActividadDeportiva.jsp">Actividad Deportiva (opc)</a></li>
 							<li><a id="RegADicClase" class="dropdown-item" href="RegistroADictadoClase.jsp">Registro a dictado de Clase</a></li>
 						</ul>
 					</li>
@@ -43,9 +43,9 @@
 							Modificar
 						</button>
 						<ul class="dropdown-menu dropdown-menu-dark">
-							<li><a id="ModifActDepor" class="dropdown-item" href="ModificarActividadDeportiva.jsp">Actividad Deportiva (opc)</a></li>
-							<li><a id="ModifInstDepor" class="dropdown-item" href="ModificarInstitucionDeportiva.jsp">Institucion Deportiva (opc)</a></li>
-							<li><a id="ModifUser" class="dropdown-item" href="ModificarUsuario.jsp">Usuario</a></li>
+							<li><a id="ModifActDepor" class="dropdown-item" href="ModificarActividadDeportiva.jsp">Actividad Deportiva (No T2)</a></li>
+							<li><a id="ModifInstDepor" class="dropdown-item" href="ModificarInstitucionDeportiva.jsp">Institucion Deportiva (No T2)</a></li>
+							<li><a id="ModifUser" class="dropdown-item" href="ModificarUsuario.jsp">Usuario (opcional)</a></li>
 							<li><a id="EliminarRegADicClase" class="dropdown-item" href="EliminarRegistroADictadoClase.jsp">Eliminar Registro a dictado de Clase</a></li>
 						</ul>
 					</li>
@@ -58,8 +58,8 @@
 						<li><a id="ConsultaActDepor" class="dropdown-item" href="ConsultaActividadDeportiva.jsp">Actividad Deportiva</a></li>
 						<li><a id="ConsultaUser" class="dropdown-item" href="ConsultaUsuario.jsp">Usuario</a></li>
 						<li><a id="ConsultaDicClase" class="dropdown-item" href="ConsultaDictadoClase.jsp">Dictado de Clase</a></li>
-						<li><a id="RankingClase" class="dropdown-item" href="RankingClase.jsp">Ranking de Clases</a></li>
-						<li><a id="RankingActDepor" class="dropdown-item" href="RankingActividadDeportiva.jsp">Ranking de Actividades Deportivas</a></li>
+						<li><a id="RankingClase" class="dropdown-item" href="RankingClase.jsp">Ranking de Clases (opc)</a></li>
+						<li><a id="RankingActDepor" class="dropdown-item" href="RankingActividadDeportiva.jsp">Ranking de Actividades Deportivas (opc)</a></li>
 					</ul>
 					</li>
 
@@ -75,8 +75,7 @@
 	<script>
 		// Supongamos que tienes una variable userType que indica el tipo de usuario
 		var userType; // Esto es lo que obtienes de la JSP
-		<%
-			Fabrica fabrica = Fabrica.getInstancia();
+		<%	Fabrica fabrica = Fabrica.getInstancia();
 			IControlador icon = fabrica.getIControlador();
 			session = request.getSession();
 			String nickname = (String) session.getAttribute("username");

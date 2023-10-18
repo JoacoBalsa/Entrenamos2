@@ -7,16 +7,16 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width", initial-scale=1,shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1,shrink-to-fit=no">
     <%@include file="header.jsp" %>
     <title>Agregar Usuario</title>
 </head>
 
 <body>
-    <div id="errorContainer" style="display:none;">
-        <div class="alert alert-danger" id="errorText"></div>
-    </div>
     <form action="/Entrenamos.uy/AgregarUsuario" method="post">
+        <div id="errorContainer" style="display:none;">
+            <div class="alert alert-danger" id="errorText"></div>
+        </div>
         <div class="form-group">
             <label for="inputNickname">Nickname</label>
             <input type="text"
@@ -136,8 +136,6 @@
             </div>
         </div>
 
-
-
         <!--SECCION DE SCRIPTS-->
         <script>
             document.getElementById("tipoUsuario").addEventListener("change", function () {
@@ -149,18 +147,19 @@
                 }
             });
         </script>
+
+        <!--Script para deseleccionar la opción al cargar la página -->
         <script>
-            // Script para deseleccionar la opción al cargar la página
             document.addEventListener("DOMContentLoaded", function () {
                 var selectTipoUsuario = document.getElementById("tipoUsuario");
                 selectTipoUsuario.selectedIndex = -1; // Deseleccionar todas las opciones
             });
         </script>
+
         <script>
-            // Script para el error
             document.addEventListener("DOMContentLoaded", function () {
                 var error = "<%= request.getAttribute("error") %>";
-                if (error) {
+                if (error && error !== "null") {
                     var errorContainer = document.getElementById("errorContainer");
                     var errorText = document.getElementById("errorText");
                     errorText.innerText = error;
@@ -168,6 +167,8 @@
                 }
             });
         </script>
+
+        <div class="mt-3"></div>
 
         <button type="submit" class="btn btn-primary">Agregar Usuario</button>
     </form>

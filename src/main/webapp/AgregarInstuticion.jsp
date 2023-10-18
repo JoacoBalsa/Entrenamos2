@@ -1,4 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,8 +9,8 @@
     <%@include file="header.jsp" %>
     <title>Agregar Institucion Deportiva</title>
 </head>
-<body>
 
+<body>
 <form action="/Entrenamos.uy/AgregarInstitucion" method="post">
     <div id="errorContainer" style="display:none;">
         <div class="alert alert-danger" id="errorText"></div>
