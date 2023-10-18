@@ -117,7 +117,7 @@
         <input type="time" id="hora" name="hora" step="3600">
     </div>
 
-    <button type="submit" class="btn btn-primary">Agregar Actividad Deportiva</button>
+    <button type="submit" class="btn btn-primary">Agregar Actividad Dictado Clase</button>
 
 
 

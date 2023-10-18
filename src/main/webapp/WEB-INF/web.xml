@@ -78,7 +78,7 @@
 
   <servlet>
     <servlet-name>RegistroADictadoClaseServlet</servlet-name>
-    <servlet-class>RegistroADictadoClaseServ</servlet-class>
+    <servlet-class>main.servlets.RegistroADictadoClaseServ</servlet-class>
   </servlet>
 
   <servlet-mapping>

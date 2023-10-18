@@ -23,8 +23,8 @@
         <select name="institucion" class="form-control" id="inputInst">
             <option value="" selected disabled>Selecciona una institucion</option>
             <%
-                Fabrica fabrica = Fabrica.getInstancia();
-                IControlador icon = fabrica.getIControlador();
+                fabrica = Fabrica.getInstancia();
+                icon = fabrica.getIControlador();
                 String[] institutos = icon.listarInstitutos();
                 for (String instituto : institutos) {
             %>
@@ -99,6 +99,10 @@
         var actividadSelect = document.getElementById("inputAct");
         var clasesContainer = document.getElementById("inputClase");
 
+        // Event listener para cuando cambia la institución o la actividad
+        institucionSelect.addEventListener("change", actualizarClases);
+        actividadSelect.addEventListener("change", actualizarClases);
+
         // Función para actualizar las clases
         function actualizarClases() {
             var institucionSeleccionada = institucionSelect.value;
@@ -121,10 +125,6 @@
                     });
                 });
         }
-
-        // Event listener para cuando cambia la institución o la actividad
-        institucionSelect.addEventListener("change", actualizarClases);
-        actividadSelect.addEventListener("change", actualizarClases);
     </script>
 
 
