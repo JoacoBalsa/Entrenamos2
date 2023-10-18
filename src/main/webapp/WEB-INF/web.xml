@@ -76,6 +76,16 @@
     <url-pattern>/ConsultaDictadoClase</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>RegistroADictadoClaseServlet</servlet-name>
+    <servlet-class>RegistroADictadoClaseServ</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>RegistroADictadoClaseServlet</servlet-name>
+    <url-pattern>/RegistroADictadoClase</url-pattern>
+  </servlet-mapping>
+
 
 </web-app>
 

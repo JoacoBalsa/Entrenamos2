@@ -9,7 +9,6 @@
 	}
 </style>
 <body>
-<form action="/Entrenamos.uy/HeaderServ" method="post">
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<div class="container-fluid">
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,12 +72,7 @@
 	</nav>
 	<script>
 		// Supongamos que tienes una variable userType que indica el tipo de usuario
-		var userType = '<%= request.getAttribute("tipoUser") %>'; // Esto es lo que obtienes de la JSP
-
-		// Asegurémonos de que userType sea una cadena
-		if (typeof userType !== 'string') {
-			userType = userType.toString();
-		}
+		var userType = 'P'; // Esto es lo que obtienes de la JSP
 		// Función para mostrar u ocultar elementos del menú según el tipo de usuario
 		function toggleMenuItems() {
 			var AgregarActDepor = document.getElementById("AgregarActDepor");
@@ -134,6 +128,5 @@
 		// Llamar a la función para inicializar el menú
 		toggleMenuItems();
 	</script>
-</form>
 </body>
 </html>
