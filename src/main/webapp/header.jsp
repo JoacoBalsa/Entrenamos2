@@ -1,6 +1,8 @@
+<%@ page import="interfaces.Fabrica" %>
+<%@ page import="interfaces.IControlador" %>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
-	integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
-	crossorigin="anonymous">
+	  integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+	  crossorigin="anonymous">
 <html>
 <style>
 	/*Color del fondo*/
@@ -28,10 +30,10 @@
 							Altas
 						</button>
 						<ul class="dropdown-menu dropdown-menu-dark">
-							<li><a id="AgregarActDepor" class="dropdown-item" href="AgregarActividadDeportiva.jsp">Actividad Deportiva (opc)</a></li>
 							<li><a id="AgregarInstitucion" class="dropdown-item" href="AgregarInstuticion.jsp">Institucion Deportiva (opc)</a></li>
 							<li><a id="AgregarUser" class="dropdown-item" href="AgregarUsuario.jsp">Profesor/Socio (opc)</a></li>
 							<li><a id="AgregarDicClase" class="dropdown-item" href="AgregarDictadoClase.jsp">Dictado de Clase</a></li>
+							<li><a id="AgregarActDepor" class="dropdown-item" href="AgregarActividadDeportiva.jsp">Actividad Deportiva (opc)</a></li>
 							<li><a id="RegADicClase" class="dropdown-item" href="RegistroADictadoClase.jsp">Registro a dictado de Clase</a></li>
 						</ul>
 					</li>
@@ -57,7 +59,7 @@
 						<li><a id="ConsultaUser" class="dropdown-item" href="ConsultaUsuario.jsp">Usuario</a></li>
 						<li><a id="ConsultaDicClase" class="dropdown-item" href="ConsultaDictadoClase.jsp">Dictado de Clase</a></li>
 						<li><a id="RankingClase" class="dropdown-item" href="RankingClase.jsp">Ranking de Clases</a></li>
-						<li><a id="RankingActDepor" class="dropdown-item" href="RankingActividadDeportiva.jsp">Ranking de Clases</a></li>
+						<li><a id="RankingActDepor" class="dropdown-item" href="RankingActividadDeportiva.jsp">Ranking de Actividades Deportivas</a></li>
 					</ul>
 					</li>
 
@@ -72,7 +74,23 @@
 	</nav>
 	<script>
 		// Supongamos que tienes una variable userType que indica el tipo de usuario
-		var userType = 'P'; // Esto es lo que obtienes de la JSP
+		var userType; // Esto es lo que obtienes de la JSP
+		<%
+			Fabrica fabrica = Fabrica.getInstancia();
+			IControlador icon = fabrica.getIControlador();
+			session = request.getSession();
+			String nickname = (String) session.getAttribute("username");
+			if(icon.esSocio(nickname)){
+				%>
+					userType = "S";
+				<%
+			}else{
+				%>
+				userType = "P";
+				<%
+			}
+		%>
+
 		// Función para mostrar u ocultar elementos del menú según el tipo de usuario
 		function toggleMenuItems() {
 			var AgregarActDepor = document.getElementById("AgregarActDepor");
@@ -87,40 +105,36 @@
 			var ConsultaDicClase = document.getElementById("ConsultaDicClase");
 			var RankingClase = document.getElementById("RankingClase");
 			var RankingActDepor = document.getElementById("RankingActDepor");
-			var RegADicClase = document.getElementById("RegADicClase");
+			var AgregarRegADicClase = document.getElementById("RegADicClase");
 			var EliminarRegADicClase = document.getElementById("EliminarRegADicClase");
+
+			AgregarActDepor.style.display = "block";		//No hay que implementarla para esta tarea. Aparecen en los dos
+			AgregarInstitucion.style.display = "block";		//No hay que implementarla para esta tarea. Aparecen en los dos
+			AgregarUser.style.display = "block";			//No hay que implementarla para esta tarea. Aparecen en los dos
+			ModifActDepor.style.display = "block";			//No hay que implementarla para esta tarea. Aparecen en los dos
+			ModifInstDepor.style.display = "block";			//No hay que implementarla para esta tarea. Aparecen en los dos
 
 			if (userType === "P") {
 				// Mostrar elementos específicos para profesores
-				AgregarActDepor.style.display = "block";		//No hay que implementarla para esta tarea. Aparecen en los dos
-				AgregarInstitucion.style.display = "block";		//No hay que implementarla para esta tarea. Aparecen en los dos
-				AgregarUser.style.display = "block";			//No hay que implementarla para esta tarea. Aparecen en los dos
+				AgregarRegADicClase.style.display = "none";
 				AgregarDicClase.style.display = "block";
-				ModifActDepor.style.display = "none";			//No hay que implementarla para esta tarea. Aparecen en los dos
-				ModifInstDepor.style.display = "none";			//No hay que implementarla para esta tarea. Aparecen en los dos
 				ModifUser.style.display = "block";
 				ConsultaActDepor.style.display = "block";
 				ConsultaUser.style.display = "block";
 				ConsultaDicClase.style.display = "block";
 				RankingClase.style.display = "block";
 				RankingActDepor.style.display = "block";
-				RegADicClase.style.display = "none";
 				EliminarRegADicClase.style.display = "none";
 			} else if (userType === "S") {
 				// Mostrar elementos específicos para socios
-				AgregarActDepor.style.display = "block";		//No hay que implementarla para esta tarea. Aparecen en los dos
-				AgregarInstitucion.style.display = "block";		//No hay que implementarla para esta tarea. Aparecen en los dos
-				AgregarUser.style.display = "block";			//No hay que implementarla para esta tarea. Aparecen en los dos
+				AgregarRegADicClase.style.display = "block";
 				AgregarDicClase.style.display = "none";
-				ModifActDepor.style.display = "none";			//No hay que implementarla para esta tarea. Aparecen en los dos
-				ModifInstDepor.style.display = "none";			//No hay que implementarla para esta tarea. Aparecen en los dos
 				ModifUser.style.display = "block";
 				ConsultaActDepor.style.display = "block";
 				ConsultaUser.style.display = "block";
 				ConsultaDicClase.style.display = "none";
 				RankingClase.style.display = "none";
 				RankingActDepor.style.display = "none";
-				RegADicClase.style.display = "block";
 				EliminarRegADicClase.style.display = "none";
 			}
 		}

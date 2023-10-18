@@ -20,8 +20,8 @@
         <select name="institucion" class="form-control" id="inputInst">
             <option value="" selected disabled>Selecciona una institucion</option>
             <%
-                Fabrica fabrica = Fabrica.getInstancia();
-                IControlador icon = fabrica.getIControlador();
+                fabrica = Fabrica.getInstancia();
+                icon = fabrica.getIControlador();
                 String[] institutos = icon.listarInstitutos();
                 for (String instituto : institutos) {
             %>
