@@ -96,5 +96,15 @@
     <url-pattern>/ConsultaActividadDeportiva</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>ConsultaUsuarioServ</servlet-name>
+    <servlet-class>main.servlets.ConsultaUsuarioServ</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>ConsultaUsuarioServ</servlet-name>
+    <url-pattern>/ConsultaUsuario</url-pattern>
+  </servlet-mapping>
+
 </web-app>
 
