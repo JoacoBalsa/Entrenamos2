@@ -19,6 +19,7 @@ import jakarta.servlet.http.HttpSession;
 
 import interfaces.Fabrica;
 import interfaces.IControlador;
+import logica.Clase;
 
 @WebServlet("/Entrenamos.uy/ConsultaDictadoClase")
 public class ConsultaDictadoClaseServ extends HttpServlet {
@@ -32,27 +33,16 @@ public class ConsultaDictadoClaseServ extends HttpServlet {
         // Aquí obtienes la instancia de la fábrica y del controlador
         Fabrica fabrica = Fabrica.getInstancia();
         IControlador icon = fabrica.getIControlador();
+        String strclase = request.getParameter("clase");
+        Clase clase = icon.obtenerClaseR(strclase);
 
-        // Obtienes el parámetro de la institución desde la solicitud
-        String institucionSeleccionada = request.getParameter("institucion");
+        Gson gson = new Gson();
+        String json = gson.toJson(clase);
 
-        if (institucionSeleccionada != null && !institucionSeleccionada.isEmpty()) {
-            // Obtienes las actividades deportivas para la institución seleccionada
-            String[] actividades = icon.listarActividadesDeportivas(institucionSeleccionada);
-
-            // Conviertes el array de cadenas a un formato JSON
-            Gson gson = new Gson();
-            String actividadesJson = gson.toJson(actividades);
-
-            // Estableces el tipo de contenido de la respuesta como JSON
-            response.setContentType("application/json");
-
-            // Escribe la respuesta JSON al flujo de salida
-            response.getWriter().write(actividadesJson);
-
-        }
-        String claseSeleccionada = request.getParameter("clase");
-
+        // Enviar la respuesta JSON al cliente
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(json);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{

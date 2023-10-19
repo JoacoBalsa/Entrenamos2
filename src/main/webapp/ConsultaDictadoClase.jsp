@@ -61,16 +61,17 @@
 
 
     <label for="fecha">Fecha:</label>
-    <input type="text" id="fecha" readonly>
+    <input type="text" id="fecha" value="<%= request.getAttribute("fecha") %>" readonly>
 
     <label for="hora">Hora:</label>
-    <input type="text" id="hora" readonly>
+    <input type="text" id="hora" value="<%= request.getAttribute("hora") %>" readonly>
 
     <label for="fechaReg">Fecha de Registro:</label>
-    <input type="text" id="fechaReg" readonly>
+    <input type="text" id="fechaReg" value="<%= request.getAttribute("fechaRegistro") %>" readonly>
 
     <label for="url">URL:</label>
-    <input type="text" id="url" readonly>
+    <input type="text" id="url" value="<%= request.getAttribute("url") %>" readonly>
+
 
     <!--SECCION DE SCRIPTS-->
     <script>
@@ -111,6 +112,7 @@
 
         // Función para actualizar las clases
         function actualizarClases() {
+            console.log("actualizarClases llamada");
             var institucionSeleccionada = institucionSelect.value;
             var actividadSeleccionada = actividadSelect.value;
 
@@ -129,6 +131,7 @@
                         option.value = clase;
                         clasesContainer.appendChild(option);
                     });
+                    claseSelect.value = data[0];
                 });
         }
 
@@ -136,41 +139,28 @@
         institucionSelect.addEventListener("change", actualizarClases);
         actividadSelect.addEventListener("change", actualizarClases);
     </script>
-
     <script>
-        var claseSelect = document.getElementById("inputClase");
-        var fechaInput = document.getElementById("fecha");
-        var fechaRegInput = document.getElementById("fechaReg");
-        var horaInput = document.getElementById("hora");
-        var urlInput = document.getElementById("url");
+        document.getElementById("inputClase").addEventListener("change", function() {
+            var selectedClass = this.value;
 
-        actividadSelect.addEventListener("change", function () {
-            var claseSeleccionada = claseSelect.value;
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "/Entrenamos.uy/ConsultaDictadoClase?clase=" + selectedClass);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    var data = JSON.parse(xhr.responseText);
 
-            // Realizar una solicitud al servlet con la clase seleccionada
-            fetch('/Entrenamos.uy/ConsultaDictadoClase?tipo=dt&clase=' + claseSeleccionada)
-                .then(response => response.json())
-                .then(data => {
-                    // Crear un objeto Date a partir de la fecha en el DtActividadDeportiva
-                    fechaInput.value = data.fecha;
-                    fechaRegInput.value = data.fechaReg;
-                    horaInput.value = data.hora;
-                    urlInput.value = data.url;
-                });
-            // Realizar una solicitud al servlet con el tipo "clases" y la actividad seleccionada
-            fetch('/Entrenamos.uy/ConsultaDictadoClase?tipo=clases&actividad=' + claseSeleccionada)
-                .then(response => response.json())
-                .then(data => {
-                    // Agregar las opciones de clase al select
-                    data.forEach(clase => {
-                        var option = document.createElement("option");
-                        option.text = clase;
-                        option.value = clase;
-                        claseSelect.appendChild(option); // Agregar la nueva opción
-                    });
-                });
+                    // Actualiza los campos con los datos recibidos
+                    document.getElementById("fecha").value = data.fecha;
+                    document.getElementById("hora").value = data.hora;
+                    document.getElementById("fechaReg").value = data.fechaRegistro;
+                    document.getElementById("url").value = data.url;
+                }
+            };
+            xhr.send();
         });
+
     </script>
+
 </form>
 <%@include file="footer.jsp" %>
 </body>
