@@ -51,7 +51,7 @@ public class ConsultaDictadoClaseServ extends HttpServlet {
             response.getWriter().write(actividadesJson);
 
         }
-
+        String claseSeleccionada = request.getParameter("clase");
 
     }
 

@@ -53,22 +53,27 @@
         <label for="inputClase">Clase</label>
         <select name="clase" class="form-control" id="inputClase">
             <option value="" selected disabled>Selecciona una clase</option>
-            <%
-                // Obtienes las clases del atributo de solicitud
-                String[] clases = (String[]) request.getAttribute("clases");
-                if (clases != null) {
-                    for (String clase : clases) {
-            %>
-            <option value="<%= clase %>"><%= clase %></option>
-            <%
-                    }
-                }
-            %>
         </select>
     </div>
 
+    <div class="mt-3"></div>
 
-  <script>
+
+
+    <label for="fecha">Fecha:</label>
+    <input type="text" id="fecha" readonly>
+
+    <label for="hora">Hora:</label>
+    <input type="text" id="hora" readonly>
+
+    <label for="fechaReg">Fecha de Registro:</label>
+    <input type="text" id="fechaReg" readonly>
+
+    <label for="url">URL:</label>
+    <input type="text" id="url" readonly>
+
+    <!--SECCION DE SCRIPTS-->
+    <script>
         var institucionSelect = document.getElementById("inputInst");
         var actividadSelect = document.getElementById("inputAct");
 
@@ -76,7 +81,7 @@
             var institucionSeleccionada = institucionSelect.value;
 
             // Realizar una solicitud al servidor con la institución seleccionada
-            fetch('/Entrenamos.uy/ConsultaDictadoClase?institucion=' + institucionSeleccionada)
+            fetch('/Entrenamos.uy/AgregarDictadoClase?institucion=' + institucionSeleccionada)
                 .then(response => response.json())
                 .then(data => {
                     // Limpiar el select de actividades
@@ -89,37 +94,84 @@
                         option.value = actividad;
                         actividadSelect.appendChild(option);
                     });
+                    actividadSelect.value = data[0];
+                    actualizarClases();
                 });
+
+
+            // Llamar a la función para actualizar las clases después de cargar las actividades
         });
     </script>
 
+    <!-- Agrega este bloque de script en tu página RegistroADictadoClase.jsp -->
     <script>
         var institucionSelect = document.getElementById("inputInst");
         var actividadSelect = document.getElementById("inputAct");
-        var claseSelect = document.getElementById("inputClase");
+        var clasesContainer = document.getElementById("inputClase");
 
-        // Escucha cambios en el select de actividades
-        actividadSelect.addEventListener("change", function () {
+        // Función para actualizar las clases
+        function actualizarClases() {
             var institucionSeleccionada = institucionSelect.value;
             var actividadSeleccionada = actividadSelect.value;
 
             // Realizar una solicitud al servidor con la institución y actividad seleccionadas
-            fetch('/Entrenamos.uy/ConsultaDictadoClase?institucion=' + institucionSeleccionada + '&actividad=' + actividadSeleccionada)
+            fetch('/Entrenamos.uy/RegistroADictadoClase?institucion=' + institucionSeleccionada + '&actividad_depor=' + actividadSeleccionada)
                 .then(response => response.json())
                 .then(data => {
+                    console.log(data);
                     // Limpiar el select de clases
-                    claseSelect.innerHTML = '';
+                    clasesContainer.innerHTML = '';
 
+                    // Agregar las clases al select
+                    data.forEach(clase => {
+                        var option = document.createElement("option");
+                        option.text = clase;
+                        option.value = clase;
+                        clasesContainer.appendChild(option);
+                    });
+                });
+        }
+
+        // Event listener para cuando cambia la institución o la actividad
+        institucionSelect.addEventListener("change", actualizarClases);
+        actividadSelect.addEventListener("change", actualizarClases);
+    </script>
+
+    <script>
+        var claseSelect = document.getElementById("inputClase");
+        var fechaInput = document.getElementById("fecha");
+        var fechaRegInput = document.getElementById("fechaReg");
+        var horaInput = document.getElementById("hora");
+        var urlInput = document.getElementById("url");
+
+        actividadSelect.addEventListener("change", function () {
+            var claseSeleccionada = claseSelect.value;
+
+            // Realizar una solicitud al servlet con la clase seleccionada
+            fetch('/Entrenamos.uy/ConsultaDictadoClase?tipo=dt&clase=' + claseSeleccionada)
+                .then(response => response.json())
+                .then(data => {
+                    // Crear un objeto Date a partir de la fecha en el DtActividadDeportiva
+                    fechaInput.value = data.fecha;
+                    fechaRegInput.value = data.fechaReg;
+                    horaInput.value = data.hora;
+                    urlInput.value = data.url;
+                });
+            // Realizar una solicitud al servlet con el tipo "clases" y la actividad seleccionada
+            fetch('/Entrenamos.uy/ConsultaDictadoClase?tipo=clases&actividad=' + claseSeleccionada)
+                .then(response => response.json())
+                .then(data => {
                     // Agregar las opciones de clase al select
                     data.forEach(clase => {
                         var option = document.createElement("option");
                         option.text = clase;
                         option.value = clase;
-                        claseSelect.appendChild(option);
+                        claseSelect.appendChild(option); // Agregar la nueva opción
                     });
                 });
         });
     </script>
 </form>
+<%@include file="footer.jsp" %>
 </body>
 </html>
