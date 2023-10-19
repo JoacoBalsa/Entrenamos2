@@ -55,7 +55,7 @@
         <select name="actividad" class="form-control" id="inputActD">
             <option value="" selected disabled>Selecciona una Actividad Deportiva</option>
             <%
-                Fabrica fabrica = Fabrica.getInstancia();
+                Fabrica fabrica= Fabrica.getInstancia();
                 IControlador icon = fabrica.getIControlador();
                 String[] actividades = icon.obtenerTodasActividadesDeportivas();
                 for (String actividadD : actividades) {
@@ -79,12 +79,13 @@
     <label for="fecha">Fecha Registro:</label>
     <input type="text" id="fecha" readonly>
 
-    <label for="clases">Clases:</label>
-    <select id="clases">
-        <option value="clase1">Clase 1</option>
-        <option value="clase2">Clase 2</option>
-        <!-- Agrega más opciones aquí -->
-    </select>
+    <div class="form-group">
+        <label for="inputClase">Clase</label>
+        <select name="clase" class="form-control" id="inputClase">
+            <option value="" selected disabled>Selecciona una Clase</option>
+            <!-- Aquí se llenarán las opciones de clases en base a la selección -->
+        </select>
+    </div>
 
     <!--SECCION DE SCRIPTS-->
     <script>
@@ -93,38 +94,41 @@
         var duracionInput = document.getElementById("duracion");
         var costoInput = document.getElementById("costo");
         var fechaInput = document.getElementById("fecha");
-        var clasesSelect = document.getElementById("clases");
+        var claseSelect = document.getElementById("inputClase"); // Cambiado a "inputClase"
 
         actividadSelect.addEventListener("change", function () {
             var actividadSeleccionada = actividadSelect.value;
 
             // Realizar una solicitud al servlet con la actividad seleccionada
-            fetch('/Entrenamos.uy/ConsultaActividadDeportiva?actividad=' + actividadSeleccionada)
+            fetch('/Entrenamos.uy/ConsultaActividadDeportiva?tipo=dt&actividad=' + actividadSeleccionada)
                 .then(response => response.json())
                 .then(data => {
                     // Crear un objeto Date a partir de la fecha en el DtActividadDeportiva
-                    var fecha = new Date(data.fecha);
-
-                    // Formatear la fecha como cadena de texto legible
-                    var fechaFormateada = fecha.toLocaleDateString();
-
-                    // Actualizar los campos de datos con los valores del DtActividadDeportiva
                     descripcionInput.value = data.descripcion;
                     duracionInput.value = data.duracion;
                     costoInput.value = data.costo;
-                    fechaInput.value = fechaFormateada;
+                    fechaInput.value = data.fecReg;
+                });
 
-                    // Limpiar y actualizar las opciones del select de clases si es necesario
-                    clasesSelect.innerHTML = '';
-                    data.clases.forEach(clase => {
+            // Realizar una solicitud al servlet con el tipo "clases" y la actividad seleccionada
+            fetch('/Entrenamos.uy/ConsultaActividadDeportiva?tipo=clases&actividad=' + actividadSeleccionada)
+                .then(response => response.json())
+                .then(data => {
+                    // Limpiar el select de clases
+                    claseSelect.innerHTML = '';
+
+                    // Agregar las opciones de clase al select
+                    data.forEach(clase => {
                         var option = document.createElement("option");
                         option.text = clase;
                         option.value = clase;
-                        clasesSelect.appendChild(option);
+                        claseSelect.appendChild(option); // Agregar la nueva opción
                     });
                 });
         });
-    </script>
+</script>
+
 </div>
+<%@include file="footer.jsp" %>
 </body>
 </html>

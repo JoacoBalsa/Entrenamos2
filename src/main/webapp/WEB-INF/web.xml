@@ -86,8 +86,15 @@
     <url-pattern>/RegistroADictadoClase</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>ConsultaActividadDeportivaServlet</servlet-name>
+    <servlet-class>main.servlets.ConsultaActividadDeportivaServ</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>ConsultaActividadDeportivaServlet</servlet-name>
+    <url-pattern>/ConsultaActividadDeportiva</url-pattern>
+  </servlet-mapping>
 
 </web-app>
-
-
 
