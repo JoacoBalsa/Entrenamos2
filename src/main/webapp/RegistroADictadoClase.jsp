@@ -123,12 +123,24 @@
                         option.value = clase;
                         clasesContainer.appendChild(option);
                     });
+                    claseSelect.value = data[0];
                 });
         }
 
         // Event listener para cuando cambia la institución o la actividad
         institucionSelect.addEventListener("change", actualizarClases);
         actividadSelect.addEventListener("change", actualizarClases);
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var error = "<%= request.getAttribute("error") %>";
+            if (error && error !== "null") {
+                var errorContainer = document.getElementById("errorContainer");
+                var errorText = document.getElementById("errorText");
+                errorText.innerText = error;
+                errorContainer.style.display = "block";
+            }
+        });
     </script>
 
 

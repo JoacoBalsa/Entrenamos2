@@ -1,15 +1,19 @@
 package main.servlets;
 
 import com.google.gson.Gson;
+import excepciones.RegistroAClaseRepetidoException;
 import interfaces.Fabrica;
 import interfaces.IControlador;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.Date;
 
 @WebServlet("/Entrenamos.uy/RegistroADictadoClase")
 public class RegistroADictadoClaseServ extends HttpServlet {
@@ -44,6 +48,22 @@ public class RegistroADictadoClaseServ extends HttpServlet {
         }
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        Fabrica fabrica = Fabrica.getInstancia();
+        IControlador icon = fabrica.getIControlador();
+        String clase = request.getParameter("clase");
+        HttpSession session = request.getSession();
+        String nick = (String)session.getAttribute("username");
+        Date date = new Date();
+        try {
+            icon.registroADictadoClase(nick, clase,date);
+        } catch (RegistroAClaseRepetidoException e) {
+            request.setAttribute("error", "El usuario de nick " + nick + " ya esta en la clase " + clase);
+            RequestDispatcher rd = request.getRequestDispatcher("/RegistroADictadoClase.jsp");
+            rd.forward(request, response);
+        }
+        RequestDispatcher rd;
+        request.setAttribute("mensaje", "Se ha ingresado correctamente el usuario " + nick + " en la clase " + clase);
+        rd = request.getRequestDispatcher("/notificacion.jsp");
+        rd.forward(request, response);
     }
 }
