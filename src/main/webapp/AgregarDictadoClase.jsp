@@ -41,12 +41,11 @@
 </head>
 
 <body>
-
 <form action="/Entrenamos.uy/AgregarDictadoClase" method="post">
     <div id="errorContainer" style="display:none;">
         <div class="alert alert-danger" id="errorText"></div>
     </div>
-    </div>
+
     <div class="form-group">
         <label for="inputInst">Institucion</label>
         <select name="institucion" class="form-control" id="inputInst">
@@ -122,6 +121,8 @@
 
 
     <!--SECCION DE SCRIPTS-->
+
+    <!--Script para mostrar las actividades de una institución-->
     <script>
         var institucionSelect = document.getElementById("inputInst");
         var actividadSelect = document.getElementById("inputAct");
@@ -144,6 +145,19 @@
                         actividadSelect.appendChild(option);
                     });
                 });
+        });
+    </script>
+
+    <!--Script para mostrar error-->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var error = "<%= request.getAttribute("error") %>";
+            if (error && error !== "null") {
+                var errorContainer = document.getElementById("errorContainer");
+                var errorText = document.getElementById("errorText");
+                errorText.innerText = error;
+                errorContainer.style.display = "block";
+            }
         });
     </script>
 </form>

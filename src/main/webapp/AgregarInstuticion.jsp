@@ -15,6 +15,7 @@
     <div id="errorContainer" style="display:none;">
         <div class="alert alert-danger" id="errorText"></div>
     </div>
+
     <div class="form-group">
         <label for="InputNombreIns">Nombre</label>
         <input type="text"
@@ -51,6 +52,10 @@
                autocomplete="off">
     </div>
 
+
+    <!--SECCION DE SCRIPTS-->
+
+    <!--Script para mostrar error-->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             var error = "<%= request.getAttribute("error") %>";

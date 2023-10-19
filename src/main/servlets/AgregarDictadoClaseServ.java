@@ -63,30 +63,39 @@ public class AgregarDictadoClaseServ extends HttpServlet {
         Fabrica fabrica = Fabrica.getInstancia();
         IControlador icon = fabrica.getIControlador();
 
-        // Para obtener el usuario de la sesión actual
-        HttpSession session = request.getSession();
-        String storedUsername = (String) session.getAttribute("username");
+        if (institucion == null || actividad_depor == null || nombre.isEmpty() || request.getParameter("fecIni") == null || url.isEmpty() || hora == null){
 
-        // Para obtener la fecha del sistema
-        Date fechaReg = new Date();
-        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+            request.setAttribute("error", "No puede haber campos vacíos");
+            RequestDispatcher rd = request.getRequestDispatcher("/AgregarDictadoClase.jsp");
+            rd.forward(request, response);
+        }else{
+            // Para obtener el usuario de la sesión actual
+            HttpSession session = request.getSession();
+            String storedUsername = (String) session.getAttribute("username");
 
-        Date fechaInicio;
-        try {
-            fechaInicio = formato.parse(fecIni);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
+            // Para obtener la fecha del sistema
+            Date fechaReg = new Date();
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+
+            Date fechaInicio;
+            try {
+                fechaInicio = formato.parse(fecIni);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+
+            try{
+                icon.altaDictadoClase(new DtClase(nombre, fechaInicio, hora, url, fechaReg), institucion, actividad_depor, storedUsername);
+            } catch(DictadoRepetidoException e){
+                throw new RuntimeException(e);
+            }
+
+            RequestDispatcher rd;
+            request.setAttribute("mensaje", "Se ha ingresado correctamente el dictado de clase de nombre: " + nombre + " en el sistema.");
+            rd = request.getRequestDispatcher("/notificacion.jsp");
+            rd.forward(request, response);
         }
 
-        try{
-            icon.altaDictadoClase(new DtClase(nombre, fechaInicio, hora, url, fechaReg), institucion, actividad_depor, storedUsername);
-        } catch(DictadoRepetidoException e){
-            throw new RuntimeException(e);
-        }
 
-        RequestDispatcher rd;
-        request.setAttribute("mensaje", "Se ha ingresado correctamente el dictado de clase de nombre: " + nombre + " en el sistema.");
-        rd = request.getRequestDispatcher("/notificacion.jsp");
-        rd.forward(request, response);
     }
 }
