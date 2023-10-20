@@ -10,6 +10,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1,shrink-to-fit=no">
     <%@include file="header.jsp" %>
     <title>Consulta Dictado de Clase</title>
+    <style>
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+    </style>
 </head>
 <body>
 <form action="/Entrenamos.uy/ConsultaDictadoClase" method="post">
@@ -53,36 +62,35 @@
         <label for="inputClase">Clase</label>
         <select name="clase" class="form-control" id="inputClase">
             <option value="" selected disabled>Selecciona una clase</option>
+            <%
+                // Obtienes las clases del atributo de solicitud
+                String[] clases = (String[]) request.getAttribute("clases");
+                if (clases != null) {
+                    for (String clase : clases) {
+            %>
+            <option value="<%= clase %>"><%= clase %></option>
+            <%
+                    }
+                }
+            %>
         </select>
     </div>
 
-    <div class="mt-3"></div>
+
+    <div id="tablaClasesContainer"></div>
+    <div id="tablaSociosContainer"></div>
 
 
-
-    <label for="fecha">Fecha:</label>
-    <input type="text" id="fecha" value="<%= request.getAttribute("fecha") %>" readonly>
-
-    <label for="hora">Hora:</label>
-    <input type="text" id="hora" value="<%= request.getAttribute("hora") %>" readonly>
-
-    <label for="fechaReg">Fecha de Registro:</label>
-    <input type="text" id="fechaReg" value="<%= request.getAttribute("fechaRegistro") %>" readonly>
-
-    <label for="url">URL:</label>
-    <input type="text" id="url" value="<%= request.getAttribute("url") %>" readonly>
-
-
-    <!--SECCION DE SCRIPTS-->
     <script>
         var institucionSelect = document.getElementById("inputInst");
         var actividadSelect = document.getElementById("inputAct");
+        var claseSelect = document.getElementById("inputClase");
 
         institucionSelect.addEventListener("change", function () {
             var institucionSeleccionada = institucionSelect.value;
 
             // Realizar una solicitud al servidor con la institución seleccionada
-            fetch('/Entrenamos.uy/AgregarDictadoClase?institucion=' + institucionSeleccionada)
+            fetch('/Entrenamos.uy/ConsultaDictadoClase?tipo=inst&institucion=' + institucionSeleccionada)
                 .then(response => response.json())
                 .then(data => {
                     // Limpiar el select de actividades
@@ -95,72 +103,116 @@
                         option.value = actividad;
                         actividadSelect.appendChild(option);
                     });
-                    actividadSelect.value = data[0];
-                    actualizarClases();
+
+                    // Disparar el evento "change" en actividadSelect para activar la siguiente actualización
+                    var event = new Event("change");
+                    actividadSelect.dispatchEvent(event);
                 });
-
-
-            // Llamar a la función para actualizar las clases después de cargar las actividades
         });
-    </script>
-
-    <!-- Agrega este bloque de script en tu página RegistroADictadoClase.jsp -->
-    <script>
-        var institucionSelect = document.getElementById("inputInst");
-        var actividadSelect = document.getElementById("inputAct");
-        var clasesContainer = document.getElementById("inputClase");
-
-        // Función para actualizar las clases
-        function actualizarClases() {
-            console.log("actualizarClases llamada");
+        actividadSelect.addEventListener("change", function () {
             var institucionSeleccionada = institucionSelect.value;
             var actividadSeleccionada = actividadSelect.value;
 
             // Realizar una solicitud al servidor con la institución y actividad seleccionadas
-            fetch('/Entrenamos.uy/RegistroADictadoClase?institucion=' + institucionSeleccionada + '&actividad_depor=' + actividadSeleccionada)
+            fetch('/Entrenamos.uy/ConsultaDictadoClase?tipo=act&institucion=' + institucionSeleccionada + '&actividad=' + actividadSeleccionada)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
                     // Limpiar el select de clases
-                    clasesContainer.innerHTML = '';
+                    claseSelect.innerHTML = '';
 
-                    // Agregar las clases al select
+                    // Agregar las opciones de clase al select
                     data.forEach(clase => {
                         var option = document.createElement("option");
                         option.text = clase;
                         option.value = clase;
-                        clasesContainer.appendChild(option);
+                        claseSelect.appendChild(option);
                     });
-                    claseSelect.value = data[0];
+
+                    // Disparar el evento "change" en claseSelect para activar la siguiente actualización
+                    var event = new Event("change");
+                    claseSelect.dispatchEvent(event);
                 });
-        }
+        });
+        claseSelect.addEventListener("change", function () {
+            var claseSeleccionada = claseSelect.value;
+            // Limpiar el contenedor de la tabla
+            var tablaContainer = document.getElementById("tablaClasesContainer");
+            tablaContainer.innerHTML = '';
+            var tablaContainer2 = document.getElementById("tablaSociosContainer");
+            tablaContainer2.innerHTML = '';
+            if(claseSeleccionada){
+                // Realizar una solicitud al servidor con la clase seleccionada
+                fetch('/Entrenamos.uy/ConsultaDictadoClase?tipo=dtclase&clase=' + claseSeleccionada)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Limpiar el contenedor de la tabla
+                        var tablaContainer = document.getElementById("tablaClasesContainer");
+                        tablaContainer.innerHTML = '';
 
-        // Event listener para cuando cambia la institución o la actividad
-        institucionSelect.addEventListener("change", actualizarClases);
-        actividadSelect.addEventListener("change", actualizarClases);
-    </script>
-    <script>
-        document.getElementById("inputClase").addEventListener("change", function() {
-            var selectedClass = this.value;
+                        // Crear y agregar la tabla al contenedor
+                        var table = document.createElement("table");
+                        var thead = table.createTHead();
+                        var row = thead.insertRow();
+                        var headers = ["Nombre", "URL", "Fecha", "Hora"];
 
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "/Entrenamos.uy/ConsultaDictadoClase?clase=" + selectedClass);
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    var data = JSON.parse(xhr.responseText);
+                        for (var i = 0; i < headers.length; i++) {
+                            var th = document.createElement("th");
+                            th.innerHTML = headers[i];
+                            row.appendChild(th);
+                        }
 
-                    // Actualiza los campos con los datos recibidos
-                    document.getElementById("fecha").value = data.fecha;
-                    document.getElementById("hora").value = data.hora;
-                    document.getElementById("fechaReg").value = data.fechaRegistro;
-                    document.getElementById("url").value = data.url;
-                }
-            };
-            xhr.send();
+                        var tbody = table.createTBody();
+                        var newRow = tbody.insertRow();
+
+                        var cell1 = newRow.insertCell(0);
+                        var cell2 = newRow.insertCell(1);
+                        var cell3 = newRow.insertCell(2);
+                        var cell4 = newRow.insertCell(3);
+
+                        cell1.innerHTML = data.nombre;
+                        cell2.innerHTML = data.url;
+                        cell3.innerHTML = data.fecha;
+                        cell4.innerHTML = data.horaInicio;
+
+                        tablaContainer.appendChild(table);
+                    });
+                // Realizar una solicitud al servidor con la clase seleccionada
+                fetch('/Entrenamos.uy/ConsultaDictadoClase?tipo=dtsocio&clase=' + claseSeleccionada)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Limpiar el contenedor de la tabla
+
+
+                        // Crear y agregar la tabla al contenedor
+                        var table = document.createElement("table");
+                        var thead = table.createTHead();
+                        var row = thead.insertRow();
+                        var headers = ["Nombre",];
+
+                        for (var i = 0; i < headers.length; i++) {
+                            var th = document.createElement("th");
+                            th.innerHTML = headers[i];
+                            row.appendChild(th);
+                        }
+
+                        var tbody = table.createTBody();
+
+                        data.forEach(function(data) {
+                            var newRow = tbody.insertRow();
+                            var cell1 = newRow.insertCell(0);
+
+
+                            // Llena las celdas con los datos del socio
+                            cell1.innerHTML = data;
+
+                        });
+
+                        tablaContainer2.appendChild(table);
+                    });}
+
         });
 
     </script>
-
 </form>
 <%@include file="footer.jsp" %>
 </body>

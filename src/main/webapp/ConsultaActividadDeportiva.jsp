@@ -99,34 +99,39 @@
         actividadSelect.addEventListener("change", function () {
             var actividadSeleccionada = actividadSelect.value;
 
-            // Realizar una solicitud al servlet con la actividad seleccionada
+            // Limpiar los campos antes de actualizar
+            descripcionInput.value = '';
+            duracionInput.value = '';
+            costoInput.value = '';
+            fechaInput.value = '';
+            claseSelect.innerHTML = ''; // Limpiar el select de clases
+
+            // Realizar la solicitud para obtener los datos de la actividad
             fetch('/Entrenamos.uy/ConsultaActividadDeportiva?tipo=dt&actividad=' + actividadSeleccionada)
                 .then(response => response.json())
                 .then(data => {
-                    // Crear un objeto Date a partir de la fecha en el DtActividadDeportiva
                     descripcionInput.value = data.descripcion;
                     duracionInput.value = data.duracion;
                     costoInput.value = data.costo;
                     fechaInput.value = data.fecReg;
-                });
 
-            // Realizar una solicitud al servlet con el tipo "clases" y la actividad seleccionada
-            fetch('/Entrenamos.uy/ConsultaActividadDeportiva?tipo=clases&actividad=' + actividadSeleccionada)
+                    // Luego de obtener los datos de la actividad, obtener la lista de clases
+                    return fetch('/Entrenamos.uy/ConsultaActividadDeportiva?tipo=clases&actividad=' + actividadSeleccionada);
+                })
                 .then(response => response.json())
                 .then(data => {
-                    // Limpiar el select de clases
-                    claseSelect.innerHTML = '';
-
-                    // Agregar las opciones de clase al select
                     data.forEach(clase => {
                         var option = document.createElement("option");
                         option.text = clase;
                         option.value = clase;
-                        claseSelect.appendChild(option); // Agregar la nueva opción
+                        claseSelect.appendChild(option);
                     });
+                })
+                .catch(error => {
+                    console.error('Error al obtener los datos:', error);
                 });
         });
-</script>
+    </script>
 
 </div>
 <%@include file="footer.jsp" %>

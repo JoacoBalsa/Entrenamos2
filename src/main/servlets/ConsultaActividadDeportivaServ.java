@@ -67,6 +67,4 @@ public class ConsultaActividadDeportivaServ extends HttpServlet {
             }
         }
     }
-
-
 }
