@@ -97,13 +97,23 @@
   </servlet-mapping>
 
   <servlet>
-    <servlet-name>ConsultaUsuarioServ</servlet-name>
-    <servlet-class>main.servlets.ConsultaUsuarioServ</servlet-class>
-  </servlet>
+  <servlet-name>ConsultaUsuarioServ</servlet-name>
+  <servlet-class>main.servlets.ConsultaUsuarioServ</servlet-class>
+</servlet>
 
   <servlet-mapping>
     <servlet-name>ConsultaUsuarioServ</servlet-name>
     <url-pattern>/ConsultaUsuario</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>ModificarUsuarioServ</servlet-name>
+    <servlet-class>main.servlets.ModificarUsuarioServ</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>ModificarUsuarioServ</servlet-name>
+    <url-pattern>/ModificarUsuario</url-pattern>
   </servlet-mapping>
 
 </web-app>

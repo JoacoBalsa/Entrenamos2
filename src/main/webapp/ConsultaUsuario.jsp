@@ -65,5 +65,7 @@
         var fecNac = document.getElementById("fecNac");
 
     </script>
+
+    <%@include file="footer.jsp" %>
 </body>
 </html>
