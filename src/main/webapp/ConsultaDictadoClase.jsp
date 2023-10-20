@@ -187,7 +187,7 @@
                         var table = document.createElement("table");
                         var thead = table.createTHead();
                         var row = thead.insertRow();
-                        var headers = ["Nombre",];
+                        var headers = ["Nombre de Socios"];
 
                         for (var i = 0; i < headers.length; i++) {
                             var th = document.createElement("th");
