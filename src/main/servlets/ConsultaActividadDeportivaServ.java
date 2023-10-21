@@ -65,6 +65,16 @@ public class ConsultaActividadDeportivaServ extends HttpServlet {
                 // Escribe la respuesta JSON al flujo de salida
                 response.getWriter().write(clasesJson);
             }
+            else if ("nomIns".equals(tipo)) {
+                // Obtienes la institución correspondiente a la actividad
+                String ins = icon.obtenerInstitucionActividad(actividadSeleccionada);
+
+                // Estableces el tipo de contenido de la respuesta como JSON
+                response.setContentType("application/json");
+
+                // Escribe la respuesta JSON al flujo de salida
+                response.getWriter().write(ins);
+            }
         }
     }
 }

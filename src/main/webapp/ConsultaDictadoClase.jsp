@@ -133,14 +133,13 @@
                     claseSelect.dispatchEvent(event);
                 });
         });
-        claseSelect.addEventListener("change", function () {
-            var claseSeleccionada = claseSelect.value;
+        function actualizarTablaClases(claseSeleccionada) {
             // Limpiar el contenedor de la tabla
             var tablaContainer = document.getElementById("tablaClasesContainer");
             tablaContainer.innerHTML = '';
             var tablaContainer2 = document.getElementById("tablaSociosContainer");
             tablaContainer2.innerHTML = '';
-            if(claseSeleccionada){
+            if (claseSeleccionada) {
                 // Realizar una solicitud al servidor con la clase seleccionada
                 fetch('/Entrenamos.uy/ConsultaDictadoClase?tipo=dtclase&clase=' + claseSeleccionada)
                     .then(response => response.json())
@@ -182,7 +181,6 @@
                     .then(data => {
                         // Limpiar el contenedor de la tabla
 
-
                         // Crear y agregar la tabla al contenedor
                         var table = document.createElement("table");
                         var thead = table.createTHead();
@@ -197,20 +195,48 @@
 
                         var tbody = table.createTBody();
 
-                        data.forEach(function(data) {
+                        data.forEach(function (data) {
                             var newRow = tbody.insertRow();
                             var cell1 = newRow.insertCell(0);
 
-
                             // Llena las celdas con los datos del socio
                             cell1.innerHTML = data;
-
                         });
 
                         tablaContainer2.appendChild(table);
-                    });}
+                    });
+            }
+        }
 
+        claseSelect.addEventListener("change", function () {
+            var claseSeleccionada = claseSelect.value;
+            // Llamar a la función para actualizar la tabla
+            actualizarTablaClases(claseSeleccionada);
         });
+    </script>
+    <script>
+        // Analiza los parámetros de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const instituciones = urlParams.get('institucion');
+        const actividades = urlParams.get('actividad');
+        const clases = urlParams.get('clase');
+        if (actividades) {
+            institucionSelect.value = instituciones;
+            actividadSelect.value = actividades;
+            claseSelect.value = clases;
+            // Crear un nuevo elemento para la lista de actividades y establecer el valor
+            const nuevaActividad = document.createElement("option");
+            nuevaActividad.value = actividades;
+            nuevaActividad.text = actividades;
+            actividadSelect.appendChild(nuevaActividad);
+            // Crear un nuevo elemento para la lista de clases y establecer el valor
+            const nuevaClase = document.createElement("option");
+            nuevaClase.value = clases;
+            nuevaClase.text = clases;
+            claseSelect.appendChild(nuevaClase);
+            var claseSeleccionada2 = claseSelect.value;
+            actualizarTablaClases(claseSeleccionada2);
+        }
 
     </script>
 </form>

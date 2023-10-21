@@ -7,9 +7,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width", initial-scale=1,shrink-to-fit=no">
     <title>Consulta Actividad Deportiva</title>
-    <link rel="stylesheet" href="css/ConsultaActividadDeportiva.css">
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <%@include file="header.jsp" %>
     <style>
+        body {
+            background-image: url('https://wallpapercave.com/dwp1x/wp3006474.jpg');
+            background-size: cover; /* Cambiado de 'contain' a 'cover' para rellenar la pantalla */
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-position: center top; /* Alineado en la parte superior */
+        }
         body {
             background-color: #363D4B;
             color: #FFFFFF;
@@ -25,16 +31,16 @@
         label {
             display: block;
             margin-top: 10px;
+            color: #FFFFFF; /* Color del texto de las etiquetas en blanco */
         }
 
         input, select {
             width: 100%;
             padding: 5px;
             margin: 5px 0;
-            background-color: #363D4B;
-            color: #FFFFFF;
-            border: 1px solid #FFFFFF;
-            filter: blur(0px); /* Ajusta el valor del desenfoque según tus preferencias */
+            background-color: #FFFFFF; /* Color de fondo blanco */
+            color: #000000; /* Color del texto en negro */
+            border: 1px solid #000000; /* Borde en negro */
         }
 
         /* Evita que se aplique el desenfoque al enfocar los campos de entrada */
@@ -55,8 +61,6 @@
         <select name="actividad" class="form-control" id="inputActD">
             <option value="" selected disabled>Selecciona una Actividad Deportiva</option>
             <%
-                Fabrica fabrica= Fabrica.getInstancia();
-                IControlador icon = fabrica.getIControlador();
                 String[] actividades = icon.obtenerTodasActividadesDeportivas();
                 for (String actividadD : actividades) {
             %>
@@ -86,6 +90,8 @@
             <!-- Aquí se llenarán las opciones de clases en base a la selección -->
         </select>
     </div>
+
+    <button class="btn btn-outline-light mt-3" id="btnConsultaClase">Consulta de Clase</button>
 
     <!--SECCION DE SCRIPTS-->
     <script>
@@ -133,6 +139,18 @@
         });
     </script>
 
+    <script>
+        btnConsultaClase.addEventListener("click", function () {
+            var actividadSeleccionada = actividadSelect.value;
+            fetch('/Entrenamos.uy/ConsultaActividadDeportiva?tipo=nomIns&actividad=' + actividadSeleccionada)
+                .then(response => response.text())
+                .then(institucion => {
+                        var claseSeleccionada = claseSelect.value;
+                        // Redirige a la página de destino
+                        window.location.href = '/Entrenamos.uy/ConsultaDictadoClase.jsp?institucion=' + institucion + '&actividad=' + actividadSeleccionada + '&clase=' + claseSeleccionada;
+                });
+        });
+    </script>
 </div>
 <%@include file="footer.jsp" %>
 </body>
