@@ -83,7 +83,7 @@
     </div>
 
     <div class="form-group">
-        <label for="inputNombre">Nombre de la actividad</label>
+        <label for="inputNombre">Nombre de la Clase</label>
         <input type="text"
                name="nombre"
                class="form-control"
