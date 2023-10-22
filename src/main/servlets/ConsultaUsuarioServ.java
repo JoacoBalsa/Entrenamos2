@@ -26,6 +26,17 @@ public class ConsultaUsuarioServ extends HttpServlet {
         IControlador icon = fabrica.getIControlador();
 
         HttpSession session = request.getSession();
-        session.getAttribute("username");
+        String nick = (String) session.getAttribute("username");
+        String[] clases = icon.usuarioEnClase(nick);
+
+        // Conviertes el array de cadenas a un formato JSON
+        Gson gson = new Gson();
+        String clasesJson = gson.toJson(clases);
+
+        // Estableces el tipo de contenido de la respuesta como JSON
+        response.setContentType("application/json");
+
+        // Escribe la respuesta JSON al flujo de salida
+        response.getWriter().write(clasesJson);
     }
 }
