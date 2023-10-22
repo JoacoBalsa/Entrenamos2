@@ -81,9 +81,9 @@
     <input type="text" id="fecNac" readonly>
     </div>
 
-    <div class="form-group">
-        <label for="inputClase">Clase</label>
-        <select name="clase" class="form-control" id="inputClase">
+    <div class="container">
+        <label for="Clases">Clases</label>
+        <select name="clase" class="form-control" id="Clases">
             <option value="" selected disabled>Selecciona una clase</option>
             <%
                 // Obtienes las clases del atributo de solicitud
@@ -98,25 +98,28 @@
             %>
         </select>
     </div>
-<!--
-        Campos de ambos:
-        Nickname
-        email
-        Nombre
-        Apellido
-        Fec Nac
 
-        Campos de Socio:
-        Datos de clases q se registró
+    <div class="container"
+            id="tablaClasesContainer">
+    </div>
 
-        Campos de Profesor:
-        Informacion de las clases que dicta y las act depor asociadas
-
-        Si selecciona una actividad deportiva o una clase de una actividad
-        deportiva, se muestra la información detallada, tal como se indica en
-        los casos de uso Consulta de Actividad Deportiva y Consulta de Dictado
-        de Clases, respectivamente
-     -->
+    <div class="container">
+        <label for="Actividades">Actividades deportivas</label>
+        <select name="Actividades" class="form-control" id="Actividades">
+            <option value="" selected disabled>Selecciona una actividad</option>
+            <%
+                // Obtienes las clases del atributo de solicitud
+                String[] actividades = (String[]) request.getAttribute("clases");
+                if (actividades != null) {
+                    for (String act : actividades) {
+            %>
+            <option value="<%= act %>"><%= act %></option>
+            <%
+                    }
+                }
+            %>
+        </select>
+    </div>
 
     <script>
         <%String nick = (String) session.getAttribute("username");
@@ -125,7 +128,7 @@
             nombre: "<%= user.getNombre() %>",
             apellido: "<%= user.getApellido() %>",
             email: "<%= user.getEmail() %>",
-            fecNac: "<%= user.getFecNac() %>"
+            fecNac: "<%= user.getFecNac() %>",
         };
 
         var nickInput = document.getElementById("nickname");
@@ -133,7 +136,7 @@
         var apellidoInput = document.getElementById("apellido");
         var emailInput = document.getElementById("email");
         var fechaInput = document.getElementById("fecNac");
-        var clases = document.getElementById("inputClase");
+        var clasesInput = document.getElementById("Clases")
 
         nickInput.value = "<%= nick %>";
         nombreInput.value = user.nombre;
@@ -141,11 +144,45 @@
         emailInput.value = user.email;
         fechaInput.value = user.fecNac;
 
+        fetch('/Entrenamos.uy/ConsultaUsuario?user=' + "<%= nick %>", {
+            method: 'GET',
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Limpiar el select de clases
+                clasesInput.innerHTML = '';
+
+                // Iterar sobre las clases obtenidas y agregarlas al select
+                for (let i = 0; i < data.length; i++) {
+                    let clase = data[i];
+
+                    // Crear un nuevo elemento de opción
+                    let option = document.createElement("option");
+                    option.value = clase;
+                    option.text = clase;
+
+                    // Agregar la opción al select
+                    clasesInput.appendChild(option);
+                }
+
+                // Disparar el evento "change" en clasesInput para activar la siguiente actualización si es necesario
+                let event = new Event("change");
+                clasesInput.dispatchEvent(event);
+            });
+    </script>
+
+    <!--Script para mostrar o no las actividades-->
+    <script>
+        var actividades = document.getElementById("Actividades");
         var userType; // Esto es lo que obtienes de la JSP
-        <%if(icon.esSocio(nickname)){
-        %>
-        userType = "S";
-        <%
+        <%	fabrica = Fabrica.getInstancia();
+            icon = fabrica.getIControlador();
+            session = request.getSession();
+            nickname = (String) session.getAttribute("username");
+            if(icon.esSocio(nickname)){
+                %>
+                userType = "S";
+                <%
             }else{
                 %>
                 userType = "P";
@@ -154,10 +191,62 @@
         %>
 
         if(userType === "S"){
-            clases.style.display = "block"
-        } else{
-            clases.style.display = "none"
+            actividades.style.display = "none";
         }
+    </script>
+
+    <!--Script para actualizar los datos de la tabla de clases-->
+    <script>
+        var claseSelect = document.getElementById("Clases");
+        function actualizarTablaClases(claseSeleccionada) {
+            console.log("Clase seleccionada: " + claseSeleccionada);
+            // Limpiar el contenedor de la tabla
+            var tablaContainer = document.getElementById("tablaClasesContainer");
+            tablaContainer.innerHTML = '';
+            if (claseSeleccionada) {
+                // Realizar una solicitud al servidor con la clase seleccionada
+                fetch('/Entrenamos.uy/ConsultaDictadoClase?tipo=dtclase&clase=' + claseSeleccionada)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Limpiar el contenedor de la tabla
+                        var tablaContainer = document.getElementById("tablaClasesContainer");
+                        tablaContainer.innerHTML = '';
+
+                        // Crear y agregar la tabla al contenedor
+                        var table = document.createElement("table");
+                        var thead = table.createTHead();
+                        var row = thead.insertRow();
+                        var headers = ["Nombre", "URL", "Fecha", "Hora"];
+
+                        for (var i = 0; i < headers.length; i++) {
+                            var th = document.createElement("th");
+                            th.innerHTML = headers[i];
+                            row.appendChild(th);
+                        }
+
+                        var tbody = table.createTBody();
+                        var newRow = tbody.insertRow();
+
+                        var cell1 = newRow.insertCell(0);
+                        var cell2 = newRow.insertCell(1);
+                        var cell3 = newRow.insertCell(2);
+                        var cell4 = newRow.insertCell(3);
+
+                        cell1.innerHTML = data.nombre;
+                        cell2.innerHTML = data.url;
+                        cell3.innerHTML = data.fecha;
+                        cell4.innerHTML = data.horaInicio;
+
+                        tablaContainer.appendChild(table);
+                    });
+            }
+        }
+
+        claseSelect.addEventListener("change", function () {
+            var claseSeleccionada = claseSelect.value;
+            // Llamar a la función para actualizar la tabla
+            actualizarTablaClases(claseSeleccionada);
+        });
     </script>
 
     <%@include file="footer.jsp" %>

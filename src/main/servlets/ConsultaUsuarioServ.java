@@ -24,10 +24,14 @@ public class ConsultaUsuarioServ extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Fabrica fabrica = Fabrica.getInstancia();
         IControlador icon = fabrica.getIControlador();
+        String[] clases;
 
-        HttpSession session = request.getSession();
-        String nick = (String) session.getAttribute("username");
-        String[] clases = icon.usuarioEnClase(nick);
+        String nick = request.getParameter("user");
+        if(icon.esSocio(nick)){
+            clases = icon.usuarioEnClase(nick);
+        }else {
+            clases = icon.clasesProfe(nick);
+        }
 
         // Conviertes el array de cadenas a un formato JSON
         Gson gson = new Gson();

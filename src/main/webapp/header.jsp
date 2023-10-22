@@ -30,9 +30,9 @@
 							Altas
 						</button>
 						<ul class="dropdown-menu dropdown-menu-dark">
-							<li><a id="AgregarInstitucion" class="dropdown-item" href="AgregarInstuticion.jsp">Institucion Deportiva (No T2)</a></li>
-							<li><a id="AgregarUser" class="dropdown-item" href="AgregarUsuario.jsp">Profesor/Socio (No T2)</a></li>
-							<li><a id="AgregarActDepor" class="dropdown-item" href="AgregarActividadDeportiva.jsp">Actividad Deportiva (No T2)</a></li>
+							<li><a id="AgregarInstitucion" class="dropdown-item" href="AgregarInstuticion.jsp">Institucion Deportiva (Tarea 1)</a></li>
+							<li><a id="AgregarUser" class="dropdown-item" href="AgregarUsuario.jsp">Profesor/Socio (Tarea 1)</a></li>
+							<li><a id="AgregarActDepor" class="dropdown-item" href="AgregarActividadDeportiva.jsp">Actividad Deportiva (Tarea 1)</a></li>
 							<li><a id="AgregarDicClase" class="dropdown-item" href="AgregarDictadoClase.jsp">Dictado de Clase</a></li>
 							<li><a id="RegADicClase" class="dropdown-item" href="RegistroADictadoClase.jsp">Registro a dictado de Clase</a></li>
 						</ul>
@@ -43,10 +43,7 @@
 							Modificar
 						</button>
 						<ul class="dropdown-menu dropdown-menu-dark">
-							<li><a id="ModifActDepor" class="dropdown-item" href="ModificarActividadDeportiva.jsp">Actividad Deportiva (No T2)</a></li>
-							<li><a id="ModifInstDepor" class="dropdown-item" href="ModificarInstitucionDeportiva.jsp">Institucion Deportiva (No T2)</a></li>
 							<li><a id="ModifUser" class="dropdown-item" href="ModificarUsuario.jsp">Usuario (opcional)</a></li>
-							<li><a id="EliminarRegADicClase" class="dropdown-item" href="EliminarRegistroADictadoClase.jsp">Eliminar Registro a dictado de Clase</a></li>
 						</ul>
 					</li>
 
@@ -58,8 +55,6 @@
 						<li><a id="ConsultaActDepor" class="dropdown-item" href="ConsultaActividadDeportiva.jsp">Actividad Deportiva</a></li>
 						<li><a id="ConsultaUser" class="dropdown-item" href="ConsultaUsuario.jsp">Usuario</a></li>
 						<li><a id="ConsultaDicClase" class="dropdown-item" href="ConsultaDictadoClase.jsp">Dictado de Clase</a></li>
-						<li><a id="RankingClase" class="dropdown-item" href="RankingClase.jsp">Ranking de Clases (opc)</a></li>
-						<li><a id="RankingActDepor" class="dropdown-item" href="RankingActividadDeportiva.jsp">Ranking de Actividades Deportivas (opc)</a></li>
 					</ul>
 					</li>
 
@@ -96,22 +91,15 @@
 			var AgregarInstitucion = document.getElementById("AgregarInstitucion");
 			var AgregarUser = document.getElementById("AgregarUser");
 			var AgregarDicClase = document.getElementById("AgregarDicClase");
-			var ModifActDepor = document.getElementById("ModifActDepor");
-			var ModifInstDepor = document.getElementById("ModifInstDepor");
 			var ModifUser = document.getElementById("ModifUser");
 			var ConsultaActDepor = document.getElementById("ConsultaActDepor");
 			var ConsultaUser = document.getElementById("ConsultaUser");
 			var ConsultaDicClase = document.getElementById("ConsultaDicClase");
-			var RankingClase = document.getElementById("RankingClase");
-			var RankingActDepor = document.getElementById("RankingActDepor");
 			var AgregarRegADicClase = document.getElementById("RegADicClase");
-			var EliminarRegADicClase = document.getElementById("EliminarRegADicClase");
 
 			AgregarActDepor.style.display = "block";		//No hay que implementarla para esta tarea. Aparecen en los dos
 			AgregarInstitucion.style.display = "block";		//No hay que implementarla para esta tarea. Aparecen en los dos
 			AgregarUser.style.display = "block";			//No hay que implementarla para esta tarea. Aparecen en los dos
-			ModifActDepor.style.display = "block";			//No hay que implementarla para esta tarea. Aparecen en los dos
-			ModifInstDepor.style.display = "block";			//No hay que implementarla para esta tarea. Aparecen en los dos
 
 			if (userType === "P") {
 				// Mostrar elementos específicos para profesores
@@ -121,9 +109,6 @@
 				ConsultaActDepor.style.display = "block";
 				ConsultaUser.style.display = "block";
 				ConsultaDicClase.style.display = "block";
-				RankingClase.style.display = "block";
-				RankingActDepor.style.display = "block";
-				EliminarRegADicClase.style.display = "none";
 			} else if (userType === "S") {
 				// Mostrar elementos específicos para socios
 				AgregarRegADicClase.style.display = "block";
@@ -132,9 +117,6 @@
 				ConsultaActDepor.style.display = "block";
 				ConsultaUser.style.display = "block";
 				ConsultaDicClase.style.display = "none";
-				RankingClase.style.display = "none";
-				RankingActDepor.style.display = "none";
-				EliminarRegADicClase.style.display = "none";
 			}
 		}
 
