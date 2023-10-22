@@ -52,6 +52,10 @@ public class ModificarUsuarioServ extends HttpServlet {
         else{
             icon.ModificarUsuario(nick,nombre,apellido,fecNacDate,"","","");
         }
+        RequestDispatcher rd;
+        request.setAttribute("mensaje", "Se ha modificado correctamente el usuario " + nick);
+        rd = request.getRequestDispatcher("/notificacion.jsp");
+        rd.forward(request, response);
 
     }
 }
